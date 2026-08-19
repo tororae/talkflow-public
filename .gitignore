@@ -1,0 +1,58 @@
+.build/
+.swiftpm/
+.DS_Store
+
+# Local KakaoTalk archives, account caches, and generated diagnostics must not
+# be committed.
+#
+# `.sqlite3` matters as much as `.sqlite`: katok's archive is named exactly
+# `archive.sqlite3`, and it holds every message of every account it has ever
+# synced. Copying it next to the source to look at something is the obvious thing
+# to do while debugging, and before this line it was one `git add -A` from being
+# published.
+LocalData/
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+*.sqlite3
+*.sqlite3-wal
+*.sqlite3-shm
+*.db
+*.db-wal
+*.db-shm
+
+# The two JSON files this code names by hand. `auth.json` is katok's KakaoTalk
+# session, and `kakao-account.json` holds the resolved `user_id` — which, beside a
+# device uuid, is what derives the database's SQLCipher key. The same argument that
+# put `archive.sqlite3` above applies to both: they are read by the same code path,
+# so copying one next to the source to look at it is the obvious debugging move.
+auth.json
+kakao-account.json
+
+# Model traffic. `CodexWorkspace` writes these, and what is in them is the
+# conversation that was sent to the provider.
+response.json
+schema.json
+*.jsonl
+*.log
+
+# Extracted KakaoTalk photos and prompt dumps. `KatokPhotoExtractor` writes into
+# the system temporary directory, so nothing lands here by itself — but a
+# screenshot or a copied extraction directory would, and a prompt dump already
+# did once: a scratch test rode into a commit on `git add -A` carrying real
+# messages, real names and a real sender id, and had to be removed again.
+*.png
+*.jpg
+*.jpeg
+*.heic
+*-prompt.txt
+PromptDump*.swift
+
+# Session scratch notes. These are working documents, not documentation: they
+# accumulate real room names, real people and measurements of this account, and
+# nothing in them is written for anybody else to read.
+claudedocs/
+
+# Agent worktrees. These are real checkouts of this repository, so a careless
+# `git add -A` commits them as embedded repositories.
+.claude/
